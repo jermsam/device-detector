@@ -2,9 +2,6 @@ import { getFingerprint as getThumbmarkFingerprint } from '@thumbmarkjs/thumbmar
 import { getCurrentBrowserFingerPrint as getBroprintFingerprint } from "@rajesh896/broprint.js";
 import b4a from 'b4a';
 
-async function generateUniqueId() {
-  return crypto.randomUUID();
-}
 
 async function convertToHex(data) {
   const encoder = new TextEncoder();
@@ -80,15 +77,10 @@ export async function getEnhancedFingerprint() {
     audioFingerprint: await getAudioFingerprint()
   };
 
-  const combinedFingerprintData = {
-    thumbmark: thumbmarkFingerprint,
-    broprint: broprintFingerprint,
-    ...extraAttributes
-  };
 
-  const combinedHexFingerprint = await convertToHex(JSON.stringify(combinedFingerprintData));
 
   return {
-    fingerprint: combinedHexFingerprint
+    thumbmark: thumbmarkFingerprint,
+    broprint: broprintFingerprint,
   };
 }

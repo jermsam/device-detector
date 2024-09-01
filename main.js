@@ -3,7 +3,7 @@ import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
 import {getEnhancedFingerprint} from './device.js';
 
-export async function setDeviceInfo(element) {
+export async function setDeviceInfo(element,button) {
   const browserInfo = await getEnhancedFingerprint();
   const setDevice = () => {
     let html = ''
@@ -14,6 +14,22 @@ export async function setDeviceInfo(element) {
   }
 
   setDevice()
+  button.addEventListener('click', () => {
+    copyText(element)
+    button.innerHTML='copied'
+  })
+}
+
+function copyText(element) {
+
+  // Copy the text
+  navigator.clipboard.writeText(element.innerText)
+    .then(() => {
+      alert('Text copied to clipboard');
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
 }
 
 
@@ -27,9 +43,9 @@ document.querySelector('#app').innerHTML = `
     </a>
     <div id="device"></div>
     <p class="read-the-docs">
-      Click on the Vite logo to learn more
+      <button id="btn">click to copy device fingerprint</button>
     </p>
   </div>
 `
 
-setDeviceInfo(document.querySelector('#device'))
+setDeviceInfo(document.querySelector('#device'), document.getElementById('btn'))
